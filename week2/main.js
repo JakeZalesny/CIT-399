@@ -1,9 +1,21 @@
+import pop from "../pop/index.mjs";
+const { KeyControls, Container, CanvasRenderer } = pop; 
+
 let clickers = 50;
 let remainingClickers = clickers;  
 let startTime= Date.now(); 
 const boardWidth = 600; 
 const boardHeight = 400; 
+const canvas = document.querySelector("#board canvas");
+const ctx = canvas.getContext("2d");
+console.log(ctx.canvas);
 const board = document.querySelector("#board");
+ctx.strokeStyle = "black";
+ctx.fillStyle = "red";
+const renderer = new CanvasRenderer(boardWidth, boardHeight);
+document.querySelector("#board").appendChild(renderer.view);
+
+const controls = new KeyControls(); 
 
 function sync(dom, pos) {
     dom.style.setProperty('--left', `${pos.x}px`);
@@ -44,5 +56,34 @@ function init() {
         this.createClicker(); 
     }
 }
+
+function loopy(ms) {
+    requestAnimationFrame(loopy);
+
+    ctx.fillRect(300, 200, 50, 50);
+    ctx.strokeRect(300, 200, 50, 50);
+    const t = ms / 1000; 
+    dt = t - last; 
+    last = t; 
+
+    // Game objects
+    const scene = new Container();
+    const message = new Text("The Renderer!", {
+        font: "40pt sans-serif",
+        fill: "DarkRed",
+        align: "center"
+    });
+message.pos.x = w / 2;
+message.pos.y = h / 2;
+scene.add(message);
+
+// Render the main container
+renderer.render(scene);
+
+}
+
+
+
+requestAnimationFrame(loopy)
 
 init(); 
