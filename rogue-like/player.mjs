@@ -26,18 +26,22 @@ const animations = {
     "death":death
 }
 
-class Player extends Sprite {
+class Player extends TileSprite {
     constructor(controls) {
-        super(animations["idle"]);
+        super(animations["idle"], 32, 32);
         this.pos = {x:0, y: 0};
         this.anchor = { x: 0, y: 0 };
         this.scale = { x: 2, y: 2 };
         this.pivot = { x: 0, y: 0 };
         this.rotation = 0;
+        this.controls = controls
     }
 
     update() {
-
+        const {x, y} = this.controls;
+        if(x) {
+            this.texture = animations["run"];
+        }
     }
 }
 
